@@ -1,80 +1,89 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Page4() {
   const location = useLocation();
   const navigate = useNavigate();
   const { roll, team, name, date } = location.state || {};
   let { score } = location.state;
-  const [ans4, setans4] = useState('');
+  const [flag,setFlag]= useState(false);
+  const [ans4, setans4] = useState("");
 
-  const handleSubmit = async() => {
-    if (ans4.toUpperCase() === 'AA') {
+  const handleSubmit = async () => {
+    if (ans4.toUpperCase() === "AA") {
       const now = new Date();
       let hours = now.getHours();
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
-      const amPm = hours >= 12 ? 'PM' : 'AM';
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const seconds = now.getSeconds().toString().padStart(2, "0");
+      const amPm = hours >= 12 ? "PM" : "AM";
 
       hours = hours % 12 || 12;
       const date = `${hours}:${minutes}:${seconds} ${amPm}`;
       score = 40;
-      // Data to be sent to the backend
+
       const data = { roll, team, name, score, date };
-  
+
       try {
-        // Sending data to the backend using fetch
-        const response = await fetch('http://localhost:5000/api/saveData', {
-          method: 'POST',
+        const response = await fetch("http://localhost:5000/api/saveData", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
         });
-  
+
         if (response.ok) {
-          console.log('Data saved successfully');
-          navigate('/page5', { state: { roll, team, name, score, date } });
+          console.log("Data saved successfully");
+          navigate("/page5", { state: { roll, team, name, score, date } });
         } else {
-          console.error('Failed to save data');
+          console.error("Failed to save data");
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     } else {
-      setans4('');
+      setFlag(true);
+      setans4("");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
       {/* Team Details */}
-      <div className="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md mb-6">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Team Details</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <p className="text-gray-700 font-medium">
-            Team Name: <span className="font-semibold">{team}</span>
-          </p>
-          <p className="text-gray-700 font-medium">
-            Team Leader Name: <span className="font-semibold">{name}</span>
-          </p>
-          <p className="text-gray-700 font-medium">
-            Team Leader Roll No: <span className="font-semibold">{roll}</span>
-          </p>
-          <p className="text-gray-700 font-medium">
-            Question No. : <span className="font-semibold">{4}</span>
+      <div className="w-full max-w-5xl p-6 font-mono rounded-lg shadow-md mb-6">
+        <h1 className="text-2xl font-bold text-center text-slate-50 mb-4 border-red-100 border-2 rounded-lg">
+          Team Details
+        </h1>
+        <div className="flex items-center justify-center pt-[20px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center font-stretch-75%">
+            <p className="text-slate-50 font-medium">
+              Team Name: <span className="font-semibold">{team}</span>
             </p>
-          <p className="text-gray-700 font-medium">
-            Score: <span className="font-semibold">{score}</span>
-          </p>
-          <p className="text-gray-700 font-medium">
-            Last Submission: <span className="font-semibold">{date}</span>
-          </p>
+            <p className="text-slate-50 font-medium">
+              Team Leader Name: <span className="font-semibold">{name}</span>
+            </p>
+            <p className="text-slate-50 font-medium">
+              Team Leader Roll No: <span className="font-semibold">{roll}</span>
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-center pt-[20px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+            <p className="text-slate-50 font-medium font-stretch-75%">
+              Question No.: <span className="font-semibold">{4}</span>
+            </p>
+            <p className="text-slate-50 font-medium">
+              Score: <span className="font-semibold">{score}</span>
+            </p>
+            <p className="text-slate-50 font-medium">
+              Last Submission: <span className="font-semibold">{date}</span>
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Main Section */}
-      <div className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between bg-white p-6 rounded-lg shadow-md">
+      <div className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between bg-black p-6 rounded-lg shadow-md">
         {/* Image on the Left */}
         <div className="flex-shrink-0 mb-4 sm:mb-0 sm:mr-6">
           <img
@@ -91,12 +100,12 @@ function Page4() {
               type="text"
               value={ans4}
               onChange={(e) => setans4(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter your answer"
+              className="w-full px-4 py-2 border text-white font-mono border-violet-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder={flag ? "Wrong Answer" : "Enter Your Answer"}
             />
             <button
               onClick={handleSubmit}
-              className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 text-white bg-gradient-to-r from-blue-500 via-pink-500 to-violet-500 rounded-md hover:opacity-90 focus:outline-none focus:ring focus:ring-blue-300"
             >
               Submit
             </button>
