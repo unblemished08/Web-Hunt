@@ -3,12 +3,14 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import error from './error.js';
-import dbConnect from './dbConnect.js';
-import mongoose from "mongoose";
+
+import database from './firebaseConfig.js'
+import { collection,addDoc } from 'firebase/firestore';
 
 const app = express();
 dotenv.config();
-//dbConnect();
+const value=collection(database,"TeamDetails");
+
 
 app.use(cookieParser());
 app.use(express.json());
@@ -31,25 +33,13 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-const TeamSchema = new mongoose.Schema({
-    roll: String,
-    team: String,
-    name: String,
-    score: Number,
-    date: String,
-});
 
 
-const Team = mongoose.model('Team', TeamSchema);
-
-// Save data to MongoDB
+// Save data to Firebase
 app.post('/api/saveData', async (req, res) => {
   try {
     const { roll, team, name, score, date } = req.body;
-
-    const newTeam = new Team({ roll, team, name, score, date });
-    //await newTeam.save();
-    console.log(newTeam);
+    await addDoc(value,{roll: roll, team: team,name: name,score:score,date:date});
 
     res.status(200).json({ message: 'Data saved successfully' });
   } catch (error) {
