@@ -70,7 +70,7 @@ function Page1() {
       }
     } else {
       setFlag(true);
-      setAns1("");
+      setans1("");
     }
   };
 

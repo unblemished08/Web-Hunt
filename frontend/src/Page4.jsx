@@ -20,7 +20,7 @@ function Page4() {
       hours = hours % 12 || 12;
       const date = `${hours}:${minutes}:${seconds} ${amPm}`;
       score = 40;
-
+      alert("Correct Answer!");
       const data = { roll, team, name, score, date };
 
       try {

@@ -38,7 +38,7 @@ function Home() {
   return (
     <div className="bg-black text-slate-50 font-mono min-h-screen">
       <div className="items-center justify-center flex">
-        <img src={technp} alt="Techno" className="h-[100px] w-[300px]" /> 
+        <img src={technp} alt="Techno" className="h-[100px] w-[300px]" />
         <p className="text-2xl font-bold m-2 ml-4 text-pink-600">X</p>
         <img src={techno} alt="Techno" className="h-[200px] w-[300px]" />
       </div>
@@ -92,6 +92,36 @@ function Home() {
             </button>
           </div>
         </div>
+      </div>
+      <div className="flex items-center justify-center flex-col gap-6">
+        <h1 className="text-center text-4xl font-bold">Instructions:</h1>
+        <div>
+          <p>
+            1. Kindly fill team details correctly. Once filled the details cannot be changed.
+          </p>
+          <p>
+            2. Enter/Guess your answers based on the image provided in each question.
+          </p>
+          <p>
+            3. You can take any number of attempts to guess the correct answer.
+          </p>
+          <p>
+            4. Answers are case-insensitive.
+
+          </p>
+          <p>
+            5. You get an alert after a correct answer, click OK and move forward, your time will be recorded and displayed.
+
+          </p>
+          <p>
+            6. Each Question carries 10 marks.
+
+          </p>
+          <p>
+            7. Results will be calculated based on score followed by timings.
+          </p>
+        </div>
+          <h1 className="text-center text-4xl mb-[40px] font-bold">ALL THE BEST !!</h1>
       </div>
     </div>
   );

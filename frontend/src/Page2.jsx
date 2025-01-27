@@ -21,6 +21,7 @@ function Page2() {
       hours = hours % 12 || 12;
       const date = `${hours}:${minutes}:${seconds} ${amPm}`;
       score = 20;
+      alert("Correct Answer!");
       // Data to be sent to the backend
       const data = { roll, team, name, score, date };
 
